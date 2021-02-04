@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="1dp"
+    android:orientation="horizontal"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:id="@+id/cardview_buku">>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linier_buku">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:id="@+id/thumbnail_buku"
+            android:contentDescription="book"
+            android:src="@drawable/ic_profile"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/judul_buku"
+            android:text="Authdor"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:id="@+id/pengarang_buku"
+            android:text="Authdor"
+            android:layout_marginLeft="15dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:id="@+id/tahun_terbit_buku"
+            android:text="Authdor"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="2dp"/>
+
+        <View
+            android:layout_width="160dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            android:layout_height="1dp"
+            android:background="@color/abuabu"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:id="@+id/status_buku_jurnal_pengguna"
+            android:text="Authdor"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

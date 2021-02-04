@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfilePenggunaActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/profil"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="15dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:visibility="visible"
+            android:layout_height="1dp"
+            android:background="@color/abuabu"
+            android:layout_marginBottom="10dp"/>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Id"
+                    android:layout_marginLeft="15dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+                <TextView
+                    android:id="@+id/textViewId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="1"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Nama"
+                    android:layout_marginLeft="15dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+                <TextView
+                    android:id="@+id/textViewNama"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Gilang Adi Saputra"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="NIM"
+                    android:layout_marginLeft="15dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+                <TextView
+                    android:id="@+id/textViewNim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="361755401189"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Prodi"
+                    android:layout_marginLeft="15dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+                <TextView
+                    android:id="@+id/textViewProdi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Tenik Informatika"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Status"
+                    android:layout_marginLeft="15dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+                <TextView
+                    android:id="@+id/textViewStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Status"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/abuabu"/>
+
+        </TableLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:onClick="keluar"
+            android:id="@+id/buttonlogout"
+            android:layout_marginTop="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:text="Logout"
+            android:textColor="#FFFF"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/button_pinjam">
+        </androidx.appcompat.widget.AppCompatButton>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview_pinjam"
+    android:orientation="horizontal"
+    android:layout_margin="5dp"
+    android:clickable="true"
+    app:cardUseCompatPadding="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="400dp"
+        android:layout_height="match_parent"
+        android:id="@+id/linier_pinjam">
+        <ImageView
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:id="@+id/thumbnail_jurnal"
+            android:contentDescription="book"
+            android:src="@drawable/ic_profile"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/judul_jurnal"
+                android:text="Authdor"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/pengarang_jurnal"
+                android:text="Authdor"
+                android:textSize="12sp"
+                android:layout_marginLeft="15dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tahun_terbit_jurnal"
+                android:text="Authdor"
+                android:textSize="12sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="50dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

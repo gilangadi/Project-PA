@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">My App</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Open navigation drawer</string>
+
+    <string name="urlserverjurnal">http://192.168.43.183/apiperpus/public/api/rakjurnal</string>
+    <string name="urlserverbuku">http://192.168.43.183/apiperpus/public/api/rakbuku</string>
+
+    <string name="urlserverpinjam">http://192.168.43.183/apiperpus/public/api/pinjam</string>
+    <string name="urlpinjamsemua">http://192.168.43.183/apiperpus/public/api/listpinjam</string>
+    <string name="urlsemuaminjam">http://192.168.43.183/apiperpus/public/api/listsemuapinjam</string>
+
+    <string name="urlserverkoleksiJurnal">http://192.168.43.183/apiperpus/public/api/koleksi</string>
+    <string name="urlkoleksijurnal">http://192.168.43.183/apiperpus/public/api/listkoleksi</string>
+
+    <string name="urlserverkoleksiBuku">http://192.168.43.183/apiperpus/public/api/koleksibuku</string>
+    <string name="urlkoleksibuku">http://192.168.43.183/apiperpus/public/api/listkoleksibuku</string>
+
+    <string name="urllistpengembalian">http://192.168.43.183/apiperpus/public/api/listpengembalian</string>
+    <string name="urllistsemuapengembalian">http://192.168.43.183/apiperpus/public/api/listsemuapengembalian</string>
+
+    <string name="url">http://192.168.43.183/apiperpus/public/register</string>
+
+</resources>

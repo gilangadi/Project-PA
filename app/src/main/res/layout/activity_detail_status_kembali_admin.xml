@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailStatusKembaliAdminActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="340dp"
+                android:layout_height="420dp"
+                android:id="@+id/image_detail_status_admin_kembali"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="10dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="1dp"
+                android:background="@color/abuabu"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="1dp"
+                android:background="@color/abuabu"/>
+            <TextView
+                android:id="@+id/judul_detail_status_admin_kembali"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="Judul"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp" />
+            <TextView
+                android:id="@+id/pengarang_detail_status_admin_kembali"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pengarang"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/tahun_terbit_detail_status_admin_kembali"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tahun_terbit"
+                android:layout_marginBottom="20dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="1dp"
+                android:background="@color/abuabu"/>
+
+            <TextView
+                android:id="@+id/nama_peminjam_kembali"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:layout_marginTop="10dp"
+                android:text="nama"/>
+            <TextView
+                android:id="@+id/nim_peminjam_kembali"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="nim"/>
+            <TextView
+                android:id="@+id/prodi_peminjam_kembali"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="prodi"/>
+            <TextView
+                android:id="@+id/tanggal_peminjam_kembali"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="tanggal"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

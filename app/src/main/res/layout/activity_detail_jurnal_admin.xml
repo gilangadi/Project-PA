@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailJurnalAdminActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="340dp"
+                android:layout_height="420dp"
+                android:id="@+id/image_jurnal_detail_admin"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="10dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="1dp"
+                android:background="@color/abuabu"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_pinjam_jurnal_admin"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:text="HAPUS JURNAL"
+                android:textColor="#FFFF"
+                android:layout_marginRight="1dp"
+                android:layout_marginLeft="1dp"
+                android:background="@drawable/button_pinjam"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_marginBottom="15dp">
+            </androidx.appcompat.widget.AppCompatButton>
+            <View
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="1dp"
+                android:background="@color/abuabu"/>
+            <TextView
+                android:id="@+id/judul_jurnal_detail_admin"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="Judul"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp" />
+            <TextView
+                android:id="@+id/pengarang_jurnal_detail_admin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pengarang"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/tahun_terbit_jurnal_detail_admin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tahun_terbit"
+                android:layout_marginBottom="20dp" />
+            <TextView
+                android:id="@+id/descrip_detail_admin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:layout_marginTop="10dp"
+                android:text="Description"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/Button_pdf_admin"
+                    android:text="PDF"
+                    android:gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:layout_width="170dp"
+                    android:layout_height="43dp"
+                    android:textColor="#FFFF"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginLeft="1dp"
+                    android:background="@drawable/button_pinjam"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_marginBottom="15dp"
+                    android:drawablePadding="40dp"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

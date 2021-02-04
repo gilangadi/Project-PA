@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#FFFF</color>
+
+    <color name="colorPri">#FFFF</color>
+
+    <color name="colorPrimaryDark">#2574A9</color>
+    <color name="colorAccent">#FFFF</color>
+    <color name="color" tools:override="true">#2574A9</color>
+    <color name="color1" tools:override="true">#FFFF</color>
+    <color name="abuabu" tools:override="true">#808080</color>
+
+    <color name="kuning" tools:override="true">#808080</color>
+</resources>
