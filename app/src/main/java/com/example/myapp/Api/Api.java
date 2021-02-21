@@ -1,5 +1,6 @@
 package com.example.myapp.Api;
 
+import com.example.myapp.Model.MyResponse;
 import com.example.myapp.Model.ResponseModel;
 
 import okhttp3.RequestBody;
@@ -13,8 +14,8 @@ public interface Api {
 
     @Multipart
     @POST("rak")
-    Call<ResponseModel> upload(
-//            @Part("urlimages\"; filename=\"image.jpg\" ") RequestBody file,
+    Call<MyResponse> upload(
+            @Part("urlimages\"; filename=\"image.jpg\" ") RequestBody file,
 //            @Part("urlpdf\"; filename=\"image.jpg\" ") RequestBody filepdf,
             @Part("judul") RequestBody judul,
             @Part("pengarang") RequestBody pengarang,

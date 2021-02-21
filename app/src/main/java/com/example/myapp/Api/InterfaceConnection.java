@@ -13,7 +13,7 @@ public interface InterfaceConnection {
 
     @FormUrlEncoded
 
-    @POST("api/rak")
+    @POST("rak")
     Call<Data_Response> create(
 
             @Field("judul") String judul,
