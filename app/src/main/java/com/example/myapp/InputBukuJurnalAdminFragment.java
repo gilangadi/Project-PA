@@ -118,8 +118,8 @@ public class InputBukuJurnalAdminFragment extends Fragment {
     private void upload(Uri fileUri, String judul, String pengarang, String tahun_terbit, String status_buku_jurnal, String status) {
 
         File file = new File(getRealPathFromURI(fileUri));
-        Toast.makeText(getContext(), (int) file.length(), Toast.LENGTH_SHORT).show();
-        RequestBody requestFile = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(fileUri)), file);
+        Toast.makeText(requireActivity().getApplicationContext(),""+ file.length(), Toast.LENGTH_SHORT).show();
+//        RequestBody requestFile = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(fileUri)), file);
         RequestBody requestJudul = RequestBody.create(MediaType.parse("text/plain"), judul);
         RequestBody requestPengarang = RequestBody.create(MediaType.parse("text/plain"), pengarang);
         RequestBody requestTahun_terbit = RequestBody.create(MediaType.parse("text/plain"), tahun_terbit);
@@ -135,20 +135,21 @@ public class InputBukuJurnalAdminFragment extends Fragment {
                 .build();
 
         Api api = retrofit.create(Api.class);
-        Call<MyResponse> call = api.upload(requestFile, requestJudul, requestPengarang, requestTahun_terbit, requestStatus_buku_jurnal, requestStatus);
+        Call<MyResponse> call = api.upload( requestJudul, requestPengarang, requestTahun_terbit, requestStatus_buku_jurnal, requestStatus);
         call.enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                if (!response.body().error) {
+                if (!response.body().isError()) {
                     Toast.makeText(getActivity().getApplicationContext(), "Sukses Upload", Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(getContext(), "Gagal Upload", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity().getApplicationContext(), "Gagal Upload", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<MyResponse> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
             }
         });
     }
@@ -171,4 +172,3 @@ public class InputBukuJurnalAdminFragment extends Fragment {
         return result;
     }
 }
-
