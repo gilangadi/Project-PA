@@ -8,16 +8,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.loader.content.CursorLoader;
@@ -28,6 +32,12 @@ import com.example.myapp.Model.ResponseModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.File;
 
@@ -49,6 +59,13 @@ public class InputBukuJurnalAdminFragment extends Fragment {
     ImageView imageViewcreate;
     private AutoCompleteTextView dropdown, dropdown1;
     Uri imageUri;
+    Uri filepath;
+    private String pdfName;
+
+    private int PICK_PDF_REQUEST = 1;
+
+    //storage permission code
+    private static final int STORAGE_PERMISSION_CODE = 123;
 
     public InputBukuJurnalAdminFragment() {
     }
@@ -62,6 +79,9 @@ public class InputBukuJurnalAdminFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_input_buku_jurnal_admin, container, false);
+
+        //Requesting storage permission
+//        requestStoragePermission();
 
         textInputEditTextJudul = (TextInputEditText) view.findViewById(R.id.judul_create);
         textInputEditTextPengarang = (TextInputEditText) view.findViewById(R.id.pengarang_create);
@@ -89,10 +109,22 @@ public class InputBukuJurnalAdminFragment extends Fragment {
             }
         });
 
+        buttonpdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("application/pdf");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Pdf"), PICK_PDF_REQUEST);
+            }
+        });
+
         //Buttom create
         buttonCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if (filepath != null)
+
                 if (imageUri != null) {
                     upload(imageUri,
                             textInputEditTextJudul.getText().toString(),
@@ -100,10 +132,37 @@ public class InputBukuJurnalAdminFragment extends Fragment {
                             textInputEditTextTahunTerbit.getText().toString(),
                             textInputEditTextStatusbukujurnal.getText().toString(),
                             textInputEditTextStatus.getText().toString());
+
+                }else{
+                    Toast.makeText(getActivity().getApplicationContext(),"Masukkan Gambar",Toast.LENGTH_LONG).show();
                 }
             }
         });
 
+        //SPINNER STATUS
+        String[] items1 = new String[]{
+                "buku",
+                "jurnal",
+        };
+
+        //SPINNER STATUS_BUKU/JURNAL
+        String[] items2 = new String[]{
+                "tersedia",
+        };
+
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(
+                getContext(), R.layout.support_simple_spinner_dropdown_item,
+                items1
+        );
+        dropdown.setAdapter(adapter1);
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(
+                getContext(), R.layout.support_simple_spinner_dropdown_item,
+                items2
+        );
+        dropdown1.setAdapter(adapter2);
+
+        //ijin akses image
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -118,13 +177,42 @@ public class InputBukuJurnalAdminFragment extends Fragment {
     private void upload(Uri fileUri, String judul, String pengarang, String tahun_terbit, String status_buku_jurnal, String status) {
 
         File file = new File(getRealPathFromURI(fileUri));
-        Toast.makeText(getContext(), (int) file.length(), Toast.LENGTH_SHORT).show();
+//        File filepdf = new File(getRealPathpdfFromURIPDF(filepath));
+
+        Toast.makeText(requireActivity().getApplicationContext(),""+ file.length(), Toast.LENGTH_SHORT).show();
         RequestBody requestFile = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(fileUri)), file);
+//        RequestBody requestFilepdf = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(filepath)), filepdf);
         RequestBody requestJudul = RequestBody.create(MediaType.parse("text/plain"), judul);
         RequestBody requestPengarang = RequestBody.create(MediaType.parse("text/plain"), pengarang);
         RequestBody requestTahun_terbit = RequestBody.create(MediaType.parse("text/plain"), tahun_terbit);
         RequestBody requestStatus_buku_jurnal = RequestBody.create(MediaType.parse("text/plain"), status_buku_jurnal);
         RequestBody requestStatus = RequestBody.create(MediaType.parse("text/plain"), status);
+
+        if (judul.isEmpty()){
+            textInputEditTextJudul.setError("Judul tidak boleh kosong");
+            textInputEditTextJudul.requestFocus();
+            return;
+        }
+        if (pengarang.isEmpty()){
+            textInputEditTextPengarang.setError("Pengarang tidak boleh kosong");
+            textInputEditTextPengarang.requestFocus();
+            return;
+        }
+        if (tahun_terbit.isEmpty()){
+            textInputEditTextTahunTerbit.setError("Tahun terbit tidak boleh kosong");
+            textInputEditTextTahunTerbit.requestFocus();
+            return;
+        }
+        if (status_buku_jurnal.isEmpty()){
+            textInputEditTextStatusbukujurnal.setError("Pilih status buku/jurnal");
+            textInputEditTextStatusbukujurnal.requestFocus();
+            return;
+        }
+        if (status.isEmpty()){
+            textInputEditTextStatus.setError("Pilih status");
+            textInputEditTextStatus.requestFocus();
+            return;
+        }
 
 
         Gson gson = new GsonBuilder().setLenient().create();
@@ -139,27 +227,65 @@ public class InputBukuJurnalAdminFragment extends Fragment {
         call.enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                if (!response.body().error) {
+                if (!response.body().isError()) {
                     Toast.makeText(getActivity().getApplicationContext(), "Sukses Upload", Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(getContext(), "Gagal Upload", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity().getApplicationContext(), "Gagal Upload", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<MyResponse> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
             }
         });
     }
 
+    //Requesting permission
+//    private void requestStoragePermission() {
+//        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+//            return;
+//
+//        if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//        }
+//
+//        // Dan akhirnya minta izin
+//        requestPermissions( new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+//    }
+
+    // Metode ini akan dipanggil ketika pengguna akan mengetuk izinkan atau tolak
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//
+//        // Memeriksa kode permintaan permintaan kami
+//        if (requestCode == STORAGE_PERMISSION_CODE) {
+//
+//            // Jika izin diberikan
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                //Displaying a toast
+//                Toast.makeText(getActivity().getApplicationContext(), "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
+//            } else {
+//                //Displaying another toast if permission is not granted
+//                Toast.makeText(getActivity().getApplicationContext(), "Oops you just denied the permission", Toast.LENGTH_LONG).show();
+//            }
+//        }
+//    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
         }
+
+        if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filepath = data.getData();
+        }
     }
+
+    //Gambar
     private String getRealPathFromURI(Uri contentUri) {
         String[] proj = {MediaStore.Images.Media.DATA};
         CursorLoader loader = new CursorLoader(getContext(), contentUri, proj, null, null, null);
@@ -170,5 +296,16 @@ public class InputBukuJurnalAdminFragment extends Fragment {
         cursor.close();
         return result;
     }
+    //Gambar
+//    private String getRealPathpdfFromURIPDF(Uri contentUri) {
+//        String[] projpdf = {MediaStore.Images.Media.DATA};
+//        CursorLoader loader = new CursorLoader(getContext(), contentUri, projpdf, null, null, null);
+//        Cursor cursor = loader.loadInBackground();
+//        int columIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//        cursor.moveToFirst();
+//        String result = cursor.getString(columIndex);
+//        cursor.close();
+//        return result;
+//    }
 }
 
