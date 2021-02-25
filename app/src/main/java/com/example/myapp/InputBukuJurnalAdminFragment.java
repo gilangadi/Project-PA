@@ -177,16 +177,15 @@ public class InputBukuJurnalAdminFragment extends Fragment {
     private void upload(Uri fileUri, String judul, String pengarang, String tahun_terbit, String status_buku_jurnal, String status) {
 
         File file = new File(getRealPathFromURI(fileUri));
-<<<<<<< HEAD
 //        File filepdf = new File(getRealPathpdfFromURIPDF(filepath));
 
         Toast.makeText(requireActivity().getApplicationContext(),""+ file.length(), Toast.LENGTH_SHORT).show();
         RequestBody requestFile = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(fileUri)), file);
 //        RequestBody requestFilepdf = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(filepath)), filepdf);
-=======
+
         Toast.makeText(requireActivity().getApplicationContext(),""+ file.length(), Toast.LENGTH_SHORT).show();
 //        RequestBody requestFile = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(fileUri)), file);
->>>>>>> aa7bbfe925d3c5a1713528045b56dc9d7b29931a
+
         RequestBody requestJudul = RequestBody.create(MediaType.parse("text/plain"), judul);
         RequestBody requestPengarang = RequestBody.create(MediaType.parse("text/plain"), pengarang);
         RequestBody requestTahun_terbit = RequestBody.create(MediaType.parse("text/plain"), tahun_terbit);
@@ -228,7 +227,7 @@ public class InputBukuJurnalAdminFragment extends Fragment {
                 .build();
 
         Api api = retrofit.create(Api.class);
-        Call<MyResponse> call = api.upload( requestJudul, requestPengarang, requestTahun_terbit, requestStatus_buku_jurnal, requestStatus);
+        Call<MyResponse> call = api.upload(requestFile, requestJudul, requestPengarang, requestTahun_terbit, requestStatus_buku_jurnal, requestStatus);
         call.enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
