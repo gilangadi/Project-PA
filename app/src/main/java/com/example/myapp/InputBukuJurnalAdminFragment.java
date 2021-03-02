@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.provider.Settings;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,8 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -58,14 +61,10 @@ public class InputBukuJurnalAdminFragment extends Fragment {
     AppCompatButton buttonpdf, buttonimage, buttonCreate;
     ImageView imageViewcreate;
     private AutoCompleteTextView dropdown, dropdown1;
+
     Uri imageUri;
     Uri filepath;
-    private String pdfName;
-
-    private int PICK_PDF_REQUEST = 1;
-
-    //storage permission code
-    private static final int STORAGE_PERMISSION_CODE = 123;
+    private  int REQ_PDF = 21;
 
     public InputBukuJurnalAdminFragment() {
     }
@@ -79,9 +78,6 @@ public class InputBukuJurnalAdminFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_input_buku_jurnal_admin, container, false);
-
-        //Requesting storage permission
-//        requestStoragePermission();
 
         textInputEditTextJudul = (TextInputEditText) view.findViewById(R.id.judul_create);
         textInputEditTextPengarang = (TextInputEditText) view.findViewById(R.id.pengarang_create);
@@ -112,10 +108,10 @@ public class InputBukuJurnalAdminFragment extends Fragment {
         buttonpdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("application/pdf");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Pdf"), PICK_PDF_REQUEST);
+                Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+                chooseFile.setType("application/pdf");
+                chooseFile = Intent.createChooser(chooseFile, "Choose a file");
+                startActivityForResult(chooseFile, REQ_PDF);
             }
         });
 
@@ -123,10 +119,11 @@ public class InputBukuJurnalAdminFragment extends Fragment {
         buttonCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (filepath != null)
 
                 if (imageUri != null) {
-                    upload(imageUri,
+                    if (filepath != null){
+
+                    upload(imageUri,filepath,
                             textInputEditTextJudul.getText().toString(),
                             textInputEditTextPengarang.getText().toString(),
                             textInputEditTextTahunTerbit.getText().toString(),
@@ -135,6 +132,7 @@ public class InputBukuJurnalAdminFragment extends Fragment {
 
                 }else{
                     Toast.makeText(getActivity().getApplicationContext(),"Masukkan Gambar",Toast.LENGTH_LONG).show();
+                }
                 }
             }
         });
@@ -169,22 +167,21 @@ public class InputBukuJurnalAdminFragment extends Fragment {
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                     Uri.parse("package:" + getActivity().getPackageName()));
             startActivity(intent);
-
         }
         return view;
     }
 
-    private void upload(Uri fileUri, String judul, String pengarang, String tahun_terbit, String status_buku_jurnal, String status) {
+    private void upload(Uri fileUri, Uri filepath, String judul, String pengarang, String tahun_terbit, String status_buku_jurnal, String status) {
 
         File file = new File(getRealPathFromURI(fileUri));
-//        File filepdf = new File(getRealPathpdfFromURIPDF(filepath));
+        File filepdf = new File(getRealPathFromURI(filepath));
+
 
         Toast.makeText(requireActivity().getApplicationContext(),""+ file.length(), Toast.LENGTH_SHORT).show();
         RequestBody requestFile = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(fileUri)), file);
-//        RequestBody requestFilepdf = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(filepath)), filepdf);
 
-        Toast.makeText(requireActivity().getApplicationContext(),""+ file.length(), Toast.LENGTH_SHORT).show();
-//        RequestBody requestFile = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(fileUri)), file);
+        Toast.makeText(requireActivity().getApplicationContext(),""+ filepdf.length(), Toast.LENGTH_SHORT).show();
+        RequestBody requestFilePDF = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(fileUri)), filepdf);
 
         RequestBody requestJudul = RequestBody.create(MediaType.parse("text/plain"), judul);
         RequestBody requestPengarang = RequestBody.create(MediaType.parse("text/plain"), pengarang);
@@ -227,7 +224,7 @@ public class InputBukuJurnalAdminFragment extends Fragment {
                 .build();
 
         Api api = retrofit.create(Api.class);
-        Call<MyResponse> call = api.upload(requestFile, requestJudul, requestPengarang, requestTahun_terbit, requestStatus_buku_jurnal, requestStatus);
+        Call<MyResponse> call = api.upload(requestFile, requestFilePDF, requestJudul, requestPengarang, requestTahun_terbit, requestStatus_buku_jurnal, requestStatus);
         call.enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
@@ -246,36 +243,6 @@ public class InputBukuJurnalAdminFragment extends Fragment {
         });
     }
 
-    //Requesting permission
-//    private void requestStoragePermission() {
-//        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-//            return;
-//
-//        if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-//        }
-//
-//        // Dan akhirnya minta izin
-//        requestPermissions( new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-//    }
-
-    // Metode ini akan dipanggil ketika pengguna akan mengetuk izinkan atau tolak
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//
-//        // Memeriksa kode permintaan permintaan kami
-//        if (requestCode == STORAGE_PERMISSION_CODE) {
-//
-//            // Jika izin diberikan
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                //Displaying a toast
-//                Toast.makeText(getActivity().getApplicationContext(), "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
-//            } else {
-//                //Displaying another toast if permission is not granted
-//                Toast.makeText(getActivity().getApplicationContext(), "Oops you just denied the permission", Toast.LENGTH_LONG).show();
-//            }
-//        }
-//    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -284,12 +251,30 @@ public class InputBukuJurnalAdminFragment extends Fragment {
             imageUri = data.getData();
         }
 
-        if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            filepath = data.getData();
+        //pdf
+        if(requestCode == REQ_PDF && resultCode == RESULT_OK && data != null) {
+
+            Uri path = data.getData();
+            try {
+                InputStream inputStream = getActivity().getApplicationContext().getContentResolver().openInputStream(path);
+                byte[] pdfInBytes = new byte[inputStream.available()];
+                inputStream.read(pdfInBytes);
+
+//                filepath = Base64.encodeToString(pdfInBytes, Base64.DEFAULT);
+
+                filepath = data.getData();
+
+                editTextNamaPdf.setText("Document Selected");
+                buttonpdf.setText("Change Document");
+
+                Toast.makeText(getActivity().getApplicationContext(), "Document Selected", Toast.LENGTH_SHORT).show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    //Gambar
     private String getRealPathFromURI(Uri contentUri) {
         String[] proj = {MediaStore.Images.Media.DATA};
         CursorLoader loader = new CursorLoader(getContext(), contentUri, proj, null, null, null);
@@ -300,15 +285,5 @@ public class InputBukuJurnalAdminFragment extends Fragment {
         cursor.close();
         return result;
     }
-    //Gambar
-//    private String getRealPathpdfFromURIPDF(Uri contentUri) {
-//        String[] projpdf = {MediaStore.Images.Media.DATA};
-//        CursorLoader loader = new CursorLoader(getContext(), contentUri, projpdf, null, null, null);
-//        Cursor cursor = loader.loadInBackground();
-//        int columIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//        cursor.moveToFirst();
-//        String result = cursor.getString(columIndex);
-//        cursor.close();
-//        return result;
-//    }
+
 }

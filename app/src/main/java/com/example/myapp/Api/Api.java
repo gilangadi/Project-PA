@@ -16,7 +16,7 @@ public interface Api {
     @POST("rak")
     Call<MyResponse> upload(
             @Part("urlimages\"; filename=\"image.jpg\" ") RequestBody file,
-//            @Part("urlpdf\"; filename=\"pdf.pdf\" ") RequestBody filepdf,
+            @Part("urlpdf\"; filename=\"pdf.pdf\" ") RequestBody filepdf,
             @Part("judul") RequestBody judul,
             @Part("pengarang") RequestBody pengarang,
             @Part("tahun_terbit") RequestBody tahun_terbit,
